@@ -1,0 +1,20 @@
+name: Legacy.CI
+
+on: [push]
+  
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup NuGet.exe
+      uses: warrenbuckley/setup-Nuget@v1
+    - name: Restore packages
+      run: nuget restore codetest.sln
+    - name: setup MS Build
+      run: warrenbuckley/setup-MSBuild@v1
+    - name: Build MSBuild
+      run: msbuild codetest.sln -p:Configuration=Release
